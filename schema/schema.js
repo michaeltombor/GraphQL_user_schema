@@ -22,7 +22,13 @@ const UserType = new GraphQLObjectType({
     fields: {
         id: { type: GraphQLString},
         firstName: { type: GraphQLString},
-        age: { type: GraphQLInt} 
+        age: { type: GraphQLInt},
+        company: {
+          type : CompanyType
+          resolve(parentValue, args) {
+            
+          }
+        }
     }
 });
 
@@ -33,7 +39,7 @@ const RootQuery = new GraphQLObjectType ({
       type: UserType,
       args: { id: { type: GraphQLString } },
       resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/users/${args.id}`)
+        return axios.get(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${args.id}`)
         //This tells axios to make the request, then return response.data
         .then(resp => resp.data);
       }
