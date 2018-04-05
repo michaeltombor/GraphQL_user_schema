@@ -24,9 +24,10 @@ const UserType = new GraphQLObjectType({
         firstName: { type: GraphQLString},
         age: { type: GraphQLInt},
         company: {
-          type : CompanyType
+          type : CompanyType,
           resolve(parentValue, args) {
-            
+            return axios.get(`https://modern-react-course-michaeltombor.c9users.io:8081/companies/${parentValue.companyId}`)
+            .then(res => res.data);
           }
         }
     }
@@ -41,7 +42,7 @@ const RootQuery = new GraphQLObjectType ({
       resolve(parentValue, args) {
         return axios.get(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${args.id}`)
         //This tells axios to make the request, then return response.data
-        .then(resp => resp.data);
+        .then(res => res.data);
       }
     }
   }
