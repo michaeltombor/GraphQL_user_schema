@@ -1,5 +1,6 @@
 const graphql = require('graphql');
-const _ = require( 'lodash' );
+const axios = require('axios');
+
 const {
     GraphQLObjectType,
     GraphQLString,
@@ -7,10 +8,6 @@ const {
     GraphQLSchema
 } = graphql;
 
-const users = [
-  { id: '23', firstName: 'Bill', age: 20 },
-  { id: '47', firstName: 'Samantha', age: 19 }
-  ];
 
 const UserType = new GraphQLObjectType({
     name: 'User', 
@@ -28,7 +25,9 @@ const RootQuery = new GraphQLObjectType ({
       type: UserType,
       args: { id: { type: GraphQLString } },
       resolve(parentValue, args) {
-        return _.find(users, { id: args.id });
+        return axios.get(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${args.id}`)
+        //This tells axios to make the request, then return response.data
+        .then(resp => resp.data);
       }
     }
   }
