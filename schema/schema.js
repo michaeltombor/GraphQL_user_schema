@@ -8,6 +8,14 @@ const {
     GraphQLSchema
 } = graphql;
 
+const CompanyType = new GraphQLObjectType({
+  name: 'Company',
+  fields: {
+    id: { type: GraphQLString },
+    name: { type: GraphQLString },
+    description: { type: GraphQLString }
+  }
+});
 
 const UserType = new GraphQLObjectType({
     name: 'User', 
@@ -25,7 +33,7 @@ const RootQuery = new GraphQLObjectType ({
       type: UserType,
       args: { id: { type: GraphQLString } },
       resolve(parentValue, args) {
-        return axios.get(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${args.id}`)
+        return axios.get(`http://localhost:3000/users/${args.id}`)
         //This tells axios to make the request, then return response.data
         .then(resp => resp.data);
       }
