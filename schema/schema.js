@@ -80,6 +80,15 @@ const mutation = new GraphQLObjectType({
         return axios.post('https://modern-react-course-michaeltombor.c9users.io:8081/users', { firstName, age })
         .then(res => res.data);
       }
+    },
+    deleteUser: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLString }
+      },
+      resolve(parentValue, args){
+        return axios.delete(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${args.id}`);
+      }
     }
   }
 });
