@@ -74,10 +74,9 @@ const mutation = new GraphQLObjectType({
         firstName: { type: new GraphQLNonNull(GraphQLString) },
         age: { type: new GraphQLNonNull(GraphQLInt) },
         companyId: { type: GraphQLString }
-        
       },
-      resolve(parentValue, { firstName, age }) {
-        return axios.post('https://modern-react-course-michaeltombor.c9users.io:8081/users', { firstName, age })
+      resolve(parentValue, { firstName, age, companyId }) {
+        return axios.post('https://modern-react-course-michaeltombor.c9users.io:8081/users', { firstName, age, companyId })
         .then(res => res.data);
       }
     },
@@ -90,6 +89,19 @@ const mutation = new GraphQLObjectType({
         return axios.delete(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${id}`)
         .then(res => res.data);
       }
+    },
+    updateUser: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+        firstName: { type: GraphQLString },
+        age: { type: GraphQLInt }, 
+        companyId: { type: GraphQLString }
+      },
+      resolve(parentValue, { id, firstName, age, companyId }){
+        return axios.patch(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${id}`, { id, firstName, age, companyId })
+        .then(res => res.data)
+      }
     }
   }
 });
@@ -97,4 +109,5 @@ const mutation = new GraphQLObjectType({
 module.exports = new GraphQLSchema({
   query: RootQuery,
   mutation
+  
 });
