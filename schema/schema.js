@@ -84,10 +84,11 @@ const mutation = new GraphQLObjectType({
     deleteUser: {
       type: UserType,
       args: {
-        id: { type: GraphQLString }
+        id: { type: GraphQLNonNull(GraphQLString) }
       },
-      resolve(parentValue, args){
-        return axios.delete(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${args.id}`);
+      resolve(parentValue, { id }){
+        return axios.delete(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${id}`)
+        .then(res => res.data);
       }
     }
   }
