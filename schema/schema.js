@@ -83,7 +83,7 @@ const mutation = new GraphQLObjectType({
     deleteUser: {
       type: UserType,
       args: {
-        id: { type: GraphQLNonNull(GraphQLString) }
+        id: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parentValue, { id }){
         return axios.delete(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${id}`)
@@ -93,13 +93,13 @@ const mutation = new GraphQLObjectType({
     updateUser: {
       type: UserType,
       args: {
-        id: { type: GraphQLNonNull(GraphQLString) },
+        id: { type: new GraphQLNonNull(GraphQLString) },
         firstName: { type: GraphQLString },
         age: { type: GraphQLInt }, 
         companyId: { type: GraphQLString }
       },
-      resolve(parentValue, { id, firstName, age, companyId }){
-        return axios.patch(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${id}`, { id, firstName, age, companyId })
+      resolve(parentValue, args){
+        return axios.patch(`https://modern-react-course-michaeltombor.c9users.io:8081/users/${args.id}`, args)
         .then(res => res.data)
       }
     }
